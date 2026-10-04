@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Order Confirm</title>
+  <style>
+    body { font-family: Arial; text-align: center; }
+    .box {
+      width: 300px;
+      margin: 50px auto;
+      padding: 20px;
+      box-shadow: 0 0 10px gray;
+      border-radius: 10px;
+    }
+    input, textarea {
+      width: 90%;
+      padding: 10px;
+      margin: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background: green;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>Confirm Order</h2>
+
+  <h3 id="productName"></h3>
+  <p id="productPrice"></p>
+
+  <input type="text" id="name" placeholder="Full Name">
+  <input type="text" id="phone" placeholder="+91 Mobile Number">
+  <textarea id="address" placeholder="Address"></textarea>
+
+  <button onclick="placeOrder()">Confirm Order</button>
+</div>
+
+<script>
+let product = JSON.parse(localStorage.getItem("selectedProduct"));
+
+// ❗ Safety check
+if (!product) {
+  alert("No product selected ❌");
+  window.location.href = "index.html";
+}
+
+document.getElementById("productName").innerText = product.name;
+document.getElementById("productPrice").innerText = "₹" + product.price;
+
+function placeOrder() {
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const address = document.getElementById("address").value;
+
+  if (!name || !phone || !address) {
+    alert("Fill all details");
+    return;
+  }
+
+  fetch("http://localhost:5000/api/order", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      product,
+      customerName: name,
+      phone,
+      address
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("✅ Order Placed!");
+
+    // ✅ correct ID store
+    localStorage.setItem("orderId", data.order._id);
+
+    // 👉 go to payment page
+    window.location.href = "payment.html";
+  })
+  .catch((err) => {
+    console.log(err);
+    alert("❌ Server error");
+  });
+}
+</script>
+
+</body>
+</html>

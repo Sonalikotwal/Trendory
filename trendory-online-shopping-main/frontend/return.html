@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Return Product</title>
+</head>
+<body>
+
+<h2>Return / Exchange</h2>
+
+<input id="orderId" placeholder="Enter Order ID">
+<button onclick="returnOrder()">Request Return</button>
+
+<script>
+function returnOrder() {
+  const id = document.getElementById("orderId").value;
+
+  fetch(`http://localhost:5000/return/${id}`, {
+    method: "POST"
+  })
+  .then(() => alert("Return Requested ✅"));
+}
+</script>
+
+</body>
+</html>

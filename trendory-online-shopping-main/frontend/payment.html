@@ -1,0 +1,44 @@
+<script>
+function pay() {
+  const orderId = localStorage.getItem("orderId");
+  const method = document.getElementById("method").value;
+
+  console.log("Order ID:", orderId);
+
+  if (!orderId) {
+    alert("❌ Order ID not found");
+    return;
+  }
+
+  fetch("http://localhost:5000/api/payment/" + orderId, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ method })
+  })
+  .then(async (res) => {
+    console.log("Status:", res.status);
+
+    const data = await res.json();
+    console.log("Response:", data);
+
+    if (!res.ok) {
+      throw new Error(data.message || "Payment failed");
+    }
+
+    return data;
+  })
+  .then((data) => {
+    alert("✅ Payment Successful");
+
+    localStorage.removeItem("orderId");
+
+    window.location.href = "index.html";
+  })
+  .catch((err) => {
+    console.error("Error:", err);
+    alert("❌ Server error: " + err.message);
+  });
+}
+</script>

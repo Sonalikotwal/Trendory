@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Details</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .product-page {
+      display: flex;
+      gap: 50px;
+      padding: 40px;
+    }
+    .images img {
+      width: 300px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .details button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      border: none;
+      cursor: pointer;
+    }
+    .cart { background: orange; }
+    .buy { background: green; color: white; }
+  </style>
+</head>
+
+<body>
+
+<div class="product-page">
+  <div class="images">
+    <img id="img1">
+    <img id="img2">
+   
+  </div>
+
+  <div class="details">
+    <h2 id="name"></h2>
+    <h3 id="price"></h3>
+    <p>Elevate your style with this premium-quality product designed for everyday comfort and modern fashion. Made with attention to detail, it offers a perfect blend of durability, comfort, and trend. Whether for casual wear, outings, or special occasions, this piece is a versatile addition to your wardrobe. Easy to style and suitable for all seasons, it ensures you always look confident and fashionable.</p>
+
+    <button class="cart" onclick="addToCart()">Add to Cart</button><br>
+    <button class="buy" onclick="buyNow()">Buy Now</button>
+    
+  </div>
+</div>
+
+<script>
+let product = JSON.parse(localStorage.getItem("selectedProduct"));
+
+document.getElementById("name").innerText = product.name;
+document.getElementById("price").innerText = "₹" + product.price;
+document.getElementById("img1").src = product.img1;
+document.getElementById("img2").src = product.img2;
+
+function addToCart() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart.push(product);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Added to cart!");
+}
+
+function buyNow() {
+  alert("Proceed to checkout!");
+}
+</script>
+
+</body>
+</html>

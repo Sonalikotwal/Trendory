@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Products</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h2>Products</h2>
+
+<!-- FILTER -->
+<div style="text-align:center; margin: 20px;">
+  <input type="number" id="priceFilter" placeholder="Max Price ₹">
+  <button onclick="applyFilter()">Filter</button>
+</div>
+
+<!-- PRODUCT GRID -->
+<div class="products" id="product-list"></div>
+
+<!-- SCRIPTS (ORDER IMPORTANT) -->
+
+<script src="script.js"></script>
+<script src="clothing.js"></script>
+<script>
+// FILTER FUNCTION
+function applyFilter() {
+  const max = document.getElementById("priceFilter").value;
+  filterByPrice(max, products);
+}
+
+// INITIAL LOAD (ONLY ONCE)
+renderProducts(products);
+</script>
+
+</body>
+</html>
